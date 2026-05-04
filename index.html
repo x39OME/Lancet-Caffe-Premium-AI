@@ -10,19 +10,19 @@
   <title>Lancet CAFFE — Crafted with Love</title>
 </head>
 <body>
-
+ 
   <!-- Decorative orbs -->
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
-
+ 
   <!-- Loading slider -->
   <div class="slider">
     <div class="slider-logo"></div>
   </div>
-
+ 
   <!-- Mobile menu overlay -->
   <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="menuToggle()"></div>
-
+ 
   <!-- ============================== -->
   <!-- FIXED NAVBAR -->
   <!-- ============================== -->
@@ -54,7 +54,13 @@
         </div>
       </a>
       <div class="navbar">
-        <div id="toggleMenu" onclick="menuToggle();"></div>
+        <!-- Theme toggle visible on mobile beside menu -->
+        <button id="mobileThemeToggle" class="mobile-theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">
+          <i class="fa-solid fa-moon theme-icon icon-moon"></i>
+          <i class="fa-solid fa-sun theme-icon icon-sun"></i>
+        </button>
+ 
+        <div id="toggleMenu" onclick="menuToggle();" aria-label="Toggle menu"></div>
         <ul id="navigation">
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
@@ -72,7 +78,7 @@
               <span class="cart-count" id="cartCount">0</span>
             </li>
             <li title="Account"><i class="fa-solid fa-user-large"></i></li>
-            <li class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+            <li class="theme-toggle desktop-theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
               <i class="fa-solid fa-moon theme-icon icon-moon"></i>
               <i class="fa-solid fa-sun theme-icon icon-sun"></i>
             </li>
@@ -81,7 +87,7 @@
       </div>
     </div>
   </div>
-
+ 
   <!-- ============================== -->
   <!-- HERO -->
   <!-- ============================== -->
@@ -107,7 +113,7 @@
       <ellipse cx="30" cy="40" rx="20" ry="32" transform="rotate(60 30 40)"/>
       <path d="M30 12 Q22 40 30 68" stroke="rgba(0,0,0,0.55)" stroke-width="2.5" fill="none" stroke-linecap="round" transform="rotate(60 30 40)"/>
     </svg>
-
+ 
     <div class="hero-content">
       <span class="hero-tag">Since 2010</span>
       <h1>The Art of Coffee<span>Lancet CAFFE</span></h1>
@@ -120,7 +126,7 @@
           <i class="fa-solid fa-bag-shopping"></i> Visit Store
         </a>
       </div>
-
+ 
       <!-- Enhanced Scroll Down -->
       <a href="#about" class="scroll-down">
         <div class="scroll-down-inner">
@@ -135,7 +141,7 @@
       </a>
     </div>
   </header>
-
+ 
   <!-- ============================== -->
   <!-- ABOUT -->
   <!-- ============================== -->
@@ -145,7 +151,7 @@
         <p class="sm-title">Our Story</p>
         <h1 class="main-title">A Journey of <em>Flavor</em></h1>
       </div>
-
+ 
       <div class="about-grid">
         <div class="about-image">
           <div class="about-image-track" id="aboutImageTrack">
@@ -168,13 +174,13 @@
             </div>
           </div>
         </div>
-
+ 
         <div class="about-text">
           <p class="sm-title">Welcome to Lancet</p>
           <h2>Crafted with <em>passion,</em> served with <em>love</em></h2>
           <p>At Lancet CAFFE, we believe coffee is more than a drink—it's a ritual, a moment of pause in a busy world. Our beans are sourced from sustainable farms across Ethiopia, Colombia, and Yemen, hand-roasted in small batches to preserve every nuance of flavor.</p>
           <p>Step into our glass-walled sanctuary where natural light dances with the aroma of freshly ground beans. Every cup is a celebration of craftsmanship.</p>
-
+ 
           <div class="about-stats">
             <div class="about-stat">
               <h3>15+</h3>
@@ -193,7 +199,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- MENU CATEGORIES -->
   <!-- ============================== -->
@@ -203,7 +209,7 @@
         <p class="sm-title">Discover</p>
         <h1 class="main-title">Our <em>Menu</em></h1>
       </div>
-
+ 
       <div class="menu-categories">
         <div class="menu-cat-card">
           <div class="menu-cat-img">
@@ -216,7 +222,7 @@
             <span class="cat-count">12 Varieties</span>
           </div>
         </div>
-
+ 
         <div class="menu-cat-card">
           <div class="menu-cat-img">
             <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80" alt="Cold Brew">
@@ -228,7 +234,7 @@
             <span class="cat-count">8 Varieties</span>
           </div>
         </div>
-
+ 
         <div class="menu-cat-card">
           <div class="menu-cat-img">
             <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80" alt="Tea">
@@ -240,7 +246,7 @@
             <span class="cat-count">15 Varieties</span>
           </div>
         </div>
-
+ 
         <div class="menu-cat-card">
           <div class="menu-cat-img">
             <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&q=80" alt="Pastries">
@@ -255,7 +261,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- STORE -->
   <!-- ============================== -->
@@ -265,7 +271,7 @@
         <p class="sm-title">What Happens Here</p>
         <h1 class="main-title">Coffee House <em>Merchandise</em></h1>
       </div>
-
+ 
       <!-- Filter buttons -->
       <div class="store-filters" id="storeFilters">
         <button class="filter-btn active" data-filter="all">All <span class="count" id="countAll">0</span></button>
@@ -274,11 +280,11 @@
         <button class="filter-btn" data-filter="tea">Tea & Herbs <span class="count" id="countTea">0</span></button>
         <button class="filter-btn" data-filter="dessert">Desserts <span class="count" id="countDessert">0</span></button>
       </div>
-
+ 
       <div class="store" id="storeProducts">
         <!-- Products injected by JS -->
       </div>
-
+ 
       <!-- Show More button -->
       <div class="show-more-wrap" id="showMoreWrap">
         <button class="show-more-btn" id="showMoreBtn" onclick="toggleShowMore()">
@@ -288,7 +294,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- LIMITED TIME OFFERS - BENTO GRID -->
   <!-- ============================== -->
@@ -298,7 +304,7 @@
         <p class="sm-title">Don't Miss Out</p>
         <h1 class="main-title">Limited Time <em>Offers</em></h1>
       </div>
-
+ 
       <!-- Countdown banner (shared for all offers) -->
       <div class="offers-countdown-banner">
         <div class="countdown-banner-text">
@@ -324,14 +330,14 @@
           </div>
         </div>
       </div>
-
+ 
       <!-- Bento grid of 4 offers -->
       <div class="offers-bento" id="offersBento">
         <!-- Injected by JS -->
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- WHY US -->
   <!-- ============================== -->
@@ -341,7 +347,7 @@
         <p class="sm-title">Why Choose Us</p>
         <h1 class="main-title">The Lancet <em>Difference</em></h1>
       </div>
-
+ 
       <div class="features">
         <div class="feature-card">
           <span class="feat-num">01</span>
@@ -370,7 +376,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- LATEST NEWS & EVENTS -->
   <!-- ============================== -->
@@ -380,7 +386,7 @@
         <p class="sm-title">Latest Updates</p>
         <h1 class="main-title">News & <em>Events</em></h1>
       </div>
-
+ 
       <div class="news-grid">
         <article class="news-card">
           <div class="news-img">
@@ -403,7 +409,7 @@
             </a>
           </div>
         </article>
-
+ 
         <article class="news-card">
           <div class="news-img">
             <span class="news-date">
@@ -425,7 +431,7 @@
             </a>
           </div>
         </article>
-
+ 
         <article class="news-card">
           <div class="news-img">
             <span class="news-date">
@@ -450,7 +456,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- TESTIMONIALS - 3D CARD STACK -->
   <!-- ============================== -->
@@ -460,12 +466,12 @@
         <p class="sm-title">Voices</p>
         <h1 class="main-title">What Our Guests <em>Say</em></h1>
       </div>
-
+ 
       <div class="testi-stage">
         <div class="testi-stack" id="testiStack">
           <!-- 3 visible cards injected by JS -->
         </div>
-
+ 
         <!-- Side arrows -->
         <button class="testi-nav-arrow prev" onclick="testiSlide(-1)" aria-label="Previous">
           <i class="fa-solid fa-chevron-left"></i>
@@ -474,7 +480,7 @@
           <i class="fa-solid fa-chevron-right"></i>
         </button>
       </div>
-
+ 
       <!-- Counter & dots -->
       <div class="testi-footer">
         <div class="testi-counter" id="testiCounter">1 / 7</div>
@@ -484,7 +490,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- NEWSLETTER -->
   <!-- ============================== -->
@@ -501,7 +507,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- ============================== -->
   <!-- FOOTER -->
   <!-- ============================== -->
@@ -535,7 +541,7 @@
             <a href="#"><i class="fa-brands fa-pinterest"></i></a>
           </div>
         </div>
-
+ 
         <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
@@ -546,7 +552,7 @@
             <li><a href="#news"><i class="fa-solid fa-chevron-right"></i> News</a></li>
           </ul>
         </div>
-
+ 
         <div class="footer-col">
           <h4>Categories</h4>
           <ul>
@@ -557,7 +563,7 @@
             <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Merchandise</a></li>
           </ul>
         </div>
-
+ 
         <div class="footer-col">
           <h4>Contact</h4>
           <ul class="footer-contact">
@@ -580,18 +586,18 @@
           </ul>
         </div>
       </div>
-
+ 
       <div class="footer-bottom">
         © 2026 <span>Lancet CAFFE</span> — All rights reserved. Crafted with passion ☕
       </div>
     </div>
   </footer>
-
+ 
   <!-- ============================== -->
   <!-- CART SIDEBAR -->
   <!-- ============================== -->
   <div class="cart-overlay" id="cartOverlay" onclick="closeAllSidebars()"></div>
-
+ 
   <aside class="sidebar-panel" id="cartSidebar">
     <div class="sidebar-header">
       <h3><i class="fa-solid fa-bag-shopping"></i> Your Cart</h3>
@@ -599,7 +605,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
-
+ 
     <div class="sidebar-body" id="cartBody">
       <div class="sidebar-empty" id="cartEmpty">
         <i class="fa-solid fa-bag-shopping"></i>
@@ -607,7 +613,7 @@
         Add some delightful coffee!
       </div>
     </div>
-
+ 
     <div class="sidebar-footer">
       <div class="cart-total">
         <span>Total:</span>
@@ -618,7 +624,7 @@
       </button>
     </div>
   </aside>
-
+ 
   <!-- ============================== -->
   <!-- WISHLIST SIDEBAR -->
   <!-- ============================== -->
@@ -629,7 +635,7 @@
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
-
+ 
     <div class="sidebar-body" id="wishlistBody">
       <div class="sidebar-empty" id="wishlistEmpty">
         <i class="fa-solid fa-heart"></i>
@@ -637,26 +643,27 @@
         Save your favorite items!
       </div>
     </div>
-
+ 
     <div class="sidebar-footer">
       <button class="checkout-btn" onclick="moveAllToCart()">
         Add All to Cart <i class="fa-solid fa-bag-shopping"></i>
       </button>
     </div>
   </aside>
-
+ 
   <!-- Toast Notification -->
   <div class="toast" id="toast">
     <i class="fa-solid fa-circle-check"></i>
     <span id="toastMsg">Added to cart!</span>
   </div>
-
+ 
   <!-- Scroll to Top button -->
   <button class="scroll-top" id="scrollTop" onclick="scrollToTop()" title="Back to top">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
-
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>
+
