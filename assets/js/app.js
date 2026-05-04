@@ -366,15 +366,34 @@ function addSpecialToCart(productId) {
   const offer = specialOffers.find(o => o.id === productId);
   if (!offer) return;
 
-  const existing = cart.find(item => item.id === productId);
+  // Find the currently active item from DOM
+  const offerIdx = specialOffers.indexOf(offer);
+  const card = document.querySelectorAll('.offer-bento-card')[offerIdx];
+  let activeImgIdx = 0;
+  if (card) {
+    const imgs = card.querySelectorAll('.offer-bento-img');
+    imgs.forEach((img, i) => {
+      if (img.classList.contains('active')) activeImgIdx = i;
+    });
+  }
+  const activeItem = offer.items[activeImgIdx];
+
+  const cartId = productId + activeImgIdx; // unique per item
+  const existing = cart.find(item => item.id === cartId);
   if (existing) {
     existing.qty += 1;
   } else {
-    cart.push({ ...offer, qty: 1 });
+    cart.push({
+      id: cartId,
+      name: activeItem.name,
+      price: activeItem.price,
+      img: activeItem.img,
+      qty: 1
+    });
   }
 
   updateCartUI();
-  showToast(`${offer.name} added! 🎉`);
+  showToast(`${activeItem.name} added! 🎉`);
 }
 
 function removeFromCart(productId) {
@@ -567,47 +586,86 @@ function closeAllSidebars() {
 const specialOffers = [
   {
     id: 1001,
-    name: 'Caramel Macchiato Combo',
-    title: 'Special <em>Weekend</em> Offer',
-    desc: 'Indulge in our signature Caramel Macchiato paired with freshly baked croissant. The perfect weekend treat to elevate your morning ritual.',
-    oldPrice: 24.00,
-    price: 14.99,
+    title: 'Hot <em>Coffee</em> Specials',
+    desc: 'Indulge in our signature hot coffee blends. Warm your soul with rich, aromatic flavors crafted with passion.',
     discount: 38,
-    img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=800&q=80'
+    items: [
+      {
+        name: 'Cappuccino Deluxe',
+        oldPrice: 8.50,
+        price: 5.25,
+        img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80'
+      },
+      {
+        name: 'Espresso Classic',
+        oldPrice: 7.50,
+        price: 4.50,
+        img: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=800&q=80'
+      },
+      {
+        name: 'Mocha Delight',
+        oldPrice: 9.95,
+        price: 6.75,
+        img: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=800&q=80'
+      }
+    ]
   },
   {
     id: 1002,
-    name: 'Mocha Bliss Bundle',
-    title: 'Chocolate <em>Lover\'s</em> Dream',
-    desc: 'Two rich Mocha Delights with a slice of decadent chocolate cake. Pure indulgence for chocolate enthusiasts.',
-    oldPrice: 28.50,
-    price: 18.99,
-    discount: 33,
-    img: 'https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=800&q=80'
+    title: 'Cold <em>Brew</em> Experience',
+    desc: 'Beat the heat with our refreshing cold coffee selection. Smooth, chilled perfection in every sip.',
+    discount: 38,
+    items: [
+      {
+        name: 'Cold Brew',
+        oldPrice: 8.95,
+        price: 5.75,
+        img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=800&q=80'
+      },
+      {
+        name: 'Iced Latte',
+        oldPrice: 9.50,
+        price: 6.25,
+        img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80'
+      },
+      {
+        name: 'Vanilla Frappé',
+        oldPrice: 10.95,
+        price: 6.95,
+        img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=800&q=80'
+      }
+    ]
   },
   {
     id: 1003,
-    name: 'Iced Coffee Trio',
-    title: 'Summer <em>Refresher</em> Pack',
-    desc: 'Cold Brew, Iced Americano, and Vanilla Frappé together. Beat the heat with our refreshing trio at an unbeatable price.',
-    oldPrice: 19.50,
-    price: 12.99,
-    discount: 33,
-    img: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80'
-  },
-  {
-    id: 1004,
-    name: 'Tea Time Selection',
-    title: 'Afternoon <em>Tea</em> Experience',
-    desc: 'Matcha Latte, Chai Tea, and Tiramisu slice. The perfect calm afternoon companion for tea connoisseurs.',
-    oldPrice: 22.00,
-    price: 13.99,
-    discount: 36,
-    img: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80'
+    title: 'Sweet <em>Desserts</em> Treat',
+    desc: 'Indulge your sweet tooth with our handcrafted desserts. The perfect ending to your coffee experience.',
+    discount: 35,
+    items: [
+      {
+        name: 'Tiramisu',
+        oldPrice: 11.00,
+        price: 7.25,
+        img: 'https://images.unsplash.com/photo-1631206753348-db44968fd440?w=800&q=80'
+      },
+      {
+        name: 'Cheesecake',
+        oldPrice: 10.50,
+        price: 6.95,
+        img: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800&q=80'
+      },
+      {
+        name: 'Chocolate Croissant',
+        oldPrice: 7.00,
+        price: 4.50,
+        img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80'
+      }
+    ]
   }
 ];
 
 let countdownInterval = null;
+let offerImageTimers = [];
 
 function renderOffersBento() {
   const bentoEl = document.getElementById('offersBento');
@@ -615,9 +673,21 @@ function renderOffersBento() {
 
   bentoEl.innerHTML = specialOffers.map((offer, idx) => {
     const isFeatured = idx === 0;
+    const firstItem = offer.items[0];
+
+    // Build images stack — first one active
+    const imgsHTML = offer.items.map((item, i) => `
+      <div class="offer-bento-img ${i === 0 ? 'active' : ''}" style="background-image: url('${item.img}');"></div>
+    `).join('');
+
+    // Build dots for this card
+    const dotsHTML = offer.items.map((_, i) => `
+      <span class="offer-dot ${i === 0 ? 'active' : ''}" data-card="${idx}" data-img="${i}"></span>
+    `).join('');
+
     return `
-      <div class="offer-bento-card ${isFeatured ? 'featured' : ''}">
-        <div class="offer-bento-img" style="background-image: url('${offer.img}');"></div>
+      <div class="offer-bento-card ${isFeatured ? 'featured' : ''}" data-offer-idx="${idx}">
+        ${imgsHTML}
         <div class="offer-bento-discount">
           <span class="discount-num">${offer.discount}%</span>
           <span class="discount-label">OFF</span>
@@ -628,19 +698,101 @@ function renderOffersBento() {
           </span>
           <h3 class="offer-bento-title">${offer.title}</h3>
           <p class="offer-bento-desc">${offer.desc}</p>
+          <div class="offer-item-info">
+            <span class="offer-item-name">${firstItem.name}</span>
+          </div>
           <div class="offer-bento-bottom">
             <div class="offer-bento-prices">
-              <span class="new-price">$${offer.price.toFixed(2)}</span>
-              <span class="old-price">$${offer.oldPrice.toFixed(2)}</span>
+              <span class="new-price">$${firstItem.price.toFixed(2)}</span>
+              <span class="old-price">$${firstItem.oldPrice.toFixed(2)}</span>
             </div>
             <button class="offer-bento-btn" onclick="addSpecialToCart(${offer.id})">
               Order <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
+          <div class="offer-bento-dots">${dotsHTML}</div>
         </div>
       </div>
     `;
   }).join('');
+
+  // Click handlers on dots
+  document.querySelectorAll('.offer-dot').forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const cardIdx = parseInt(dot.dataset.card);
+      const imgIdx = parseInt(dot.dataset.img);
+      goToOfferImage(cardIdx, imgIdx);
+    });
+  });
+
+  // Start auto-rotation for each card
+  startOfferImageRotation();
+}
+
+function goToOfferImage(cardIdx, imgIdx) {
+  const card = document.querySelectorAll('.offer-bento-card')[cardIdx];
+  if (!card) return;
+
+  const offer = specialOffers[cardIdx];
+  const item = offer.items[imgIdx];
+  if (!item) return;
+
+  // Update active image
+  card.querySelectorAll('.offer-bento-img').forEach((img, i) => {
+    img.classList.toggle('active', i === imgIdx);
+  });
+
+  // Update active dot
+  card.querySelectorAll('.offer-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === imgIdx);
+  });
+
+  // Update name and prices
+  const nameEl = card.querySelector('.offer-item-name');
+  const newPriceEl = card.querySelector('.new-price');
+  const oldPriceEl = card.querySelector('.old-price');
+
+  if (nameEl) {
+    nameEl.classList.add('changing');
+    setTimeout(() => {
+      nameEl.textContent = item.name;
+      nameEl.classList.remove('changing');
+    }, 200);
+  }
+
+  if (newPriceEl && oldPriceEl) {
+    newPriceEl.classList.add('changing');
+    oldPriceEl.classList.add('changing');
+    setTimeout(() => {
+      newPriceEl.textContent = '$' + item.price.toFixed(2);
+      oldPriceEl.textContent = '$' + item.oldPrice.toFixed(2);
+      newPriceEl.classList.remove('changing');
+      oldPriceEl.classList.remove('changing');
+    }, 200);
+  }
+}
+
+function startOfferImageRotation() {
+  // Clear existing timers
+  offerImageTimers.forEach(t => clearInterval(t));
+  offerImageTimers = [];
+
+  // Each card rotates its own images every 4 seconds (with stagger)
+  document.querySelectorAll('.offer-bento-card').forEach((card, cardIdx) => {
+    const imgs = card.querySelectorAll('.offer-bento-img');
+    if (imgs.length <= 1) return;
+
+    let currentIdx = 0;
+    // Stagger so they don't all change at the same time
+    setTimeout(() => {
+      const timer = setInterval(() => {
+        currentIdx = (currentIdx + 1) % imgs.length;
+        goToOfferImage(cardIdx, currentIdx);
+      }, 4000);
+      offerImageTimers.push(timer);
+    }, cardIdx * 1300); // Stagger by 1.3 seconds per card
+  });
 }
 
 // ===============================
@@ -657,38 +809,47 @@ const ABOUT_IMG_INTERVAL = 3000;
 // COFFEE BEAN DECORATIONS (All sections)
 // ===============================
 function injectCoffeeBeans() {
+  // Respect user motion preferences
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   const beanSVG = (rotate) => `
-    <svg class="coffee-bean-decor bean-{N}" viewBox="0 0 60 80" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <svg class="coffee-bean-decor bean-{N}" viewBox="0 0 60 80" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <ellipse cx="30" cy="40" rx="20" ry="32" transform="rotate(${rotate} 30 40)"/>
       <path d="M30 12 Q22 40 30 68" stroke="rgba(0,0,0,0.55)" stroke-width="2.5" fill="none" stroke-linecap="round" transform="rotate(${rotate} 30 40)"/>
     </svg>
   `;
 
-  // Random rotation values for variety
   const rotations = [20, -30, 45, -15, 60, -45, 30];
 
-  // Inject beans into each section (except header which already has them)
+  // Adaptive count based on screen size (performance)
+  const isMobile = window.innerWidth < 768;
+  const isSmallMobile = window.innerWidth < 480;
+
+  // Inject beans into sections
   const sections = document.querySelectorAll('section');
   sections.forEach(section => {
-    // Skip if beans already exist
     if (section.querySelector('.coffee-bean-decor')) return;
 
-    // 5-7 beans per section randomly
-    const count = 5 + Math.floor(Math.random() * 3); // 5-7
+    // Reduced count on mobile for better performance
+    let count;
+    if (isSmallMobile) count = 2;
+    else if (isMobile) count = 3;
+    else count = 4 + Math.floor(Math.random() * 2); // 4-5 on desktop
+
     let beansHTML = '';
     for (let i = 1; i <= count; i++) {
       const rot = rotations[Math.floor(Math.random() * rotations.length)];
       beansHTML += beanSVG(rot).replace('{N}', i);
     }
-    // Insert at beginning of section
     section.insertAdjacentHTML('afterbegin', beansHTML);
   });
 
-  // Inject beans into footer
+  // Footer: fewer beans on mobile
   const footer = document.querySelector('footer');
   if (footer && !footer.querySelector('.coffee-bean-decor')) {
+    const count = isMobile ? 2 : 3;
     let beansHTML = '';
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= count; i++) {
       const rot = rotations[Math.floor(Math.random() * rotations.length)];
       beansHTML += beanSVG(rot).replace('{N}', i);
     }
@@ -998,6 +1159,40 @@ function initScrollReveal() {
 // ===============================
 // Init
 // ===============================
+// ===============================
+// IMAGE LOAD HANDLER (smooth fade-in)
+// ===============================
+function initImageLoading() {
+  document.querySelectorAll('img').forEach(img => {
+    if (img.complete && img.naturalHeight !== 0) {
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+      img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
+    }
+  });
+}
+
+// ===============================
+// KEYBOARD ACCESSIBILITY
+// ===============================
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    // ESC closes all sidebars
+    if (e.key === 'Escape') {
+      const cartOpen = document.getElementById('cartSidebar').classList.contains('open');
+      const wishOpen = document.getElementById('wishlistSidebar').classList.contains('open');
+      const menuOpen = document.getElementById('navigation').classList.contains('active');
+
+      if (cartOpen || wishOpen) {
+        closeAllSidebars();
+      } else if (menuOpen) {
+        menuToggle();
+      }
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadTheme();
   initFilters();
@@ -1012,6 +1207,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbarScroll();
   initAboutSlider();
   injectCoffeeBeans();
+  initImageLoading();
+  initKeyboardShortcuts();
   resetTestiAutoplay();
 
   const cartCount = document.getElementById('cartCount');
